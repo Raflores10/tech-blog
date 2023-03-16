@@ -1,21 +1,21 @@
 const express = require("express");
 const router = require("express").Router();
-const { Users, Posts, Comments } = require("../models");
+const { User, Post, Comment } = require("../../models");
 
 router.get("/", (req, res) => {
-  Comments.findAll({
+  Comment.findAll({
     include: [
       {
-        model: Posts,
+        model: Post,
         attributes: ["title"],
       },
       {
-        model: Users,
+        model: User,
         attributes: ["username"],
       },
     ],
   })
-    .then((dbPostData) => res.json(dbPostData))
+    .then((PostData) => res.json(PostData))
     .catch((err) => {
       
       res.status(500).json(err);
@@ -29,12 +29,12 @@ router.post("/", (req, res) => {
       .json({ message: "You must be logged in to create a post." });
     return;
   }
-  Comments.create({
+  Comment.create({
     comment_text: req.body.comment_text,
     userId: req.session.userId,
     postId: req.body.postId,
   })
-    .then((dbPostData) => res.json(dbPostData))
+    .then((PostData) => res.json(PostData))
     .catch((err) => {
       
       res.status(500).json(err);

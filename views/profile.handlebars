@@ -1,0 +1,31 @@
+<div class="userDiv">
+    <h1>Hello {{user.username}}</h1>
+    <p id="decription"></p>
+    <P>Number of posts: {{user.Posts.length}}</P>
+    <P>Number of comments: {{user.Comments.length}}</P>
+</div>
+<div class="postDiv">
+    {{#each user.Posts}}
+    <div class="post">
+        <h4>You posted on {{dateFormat createdAt}}</h4>
+        <h3>{{title}}</h3>
+        <button class="delBtn" data-id="{{id}}">Delete</button>
+        <button class="editBtn" data-id="{{id}}">Edit</button>
+        <p class="text">{{post}}</p>
+        <button class="commentBtn" data-id="{{id}}">Add comment</button>
+        <button class="seeBtn" data-id="{{id}}">See comments: {{Comments.length}}</button>
+    </div>
+    {{/each}}
+</div>
+<div class="addPostDiv">
+  <h2>Add a post</h2>
+<form id="postForm">
+    <input type="text" id="postTitle" placeholder="title">
+    <textarea id="postInput" placeholder="text"></textarea>
+    <br>
+    <button>Post!</button>
+</form>  
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+<script src="js/profile.js"></script>

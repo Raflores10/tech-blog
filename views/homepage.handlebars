@@ -1,0 +1,21 @@
+<div id="homepage">
+    <h1>Homepage</h1>
+    <h2>All posts</h2>
+
+    <div class="postDiv home">
+        {{#each posts}}
+        <div class="post">
+            <h4>{{User.username}} posted on {{dateFormat createdAt}}</h4>
+            <h3>{{title}}</h3>
+            <button class="delBtn" user-id="{{UserId}}" post-id="{{id}}">Delete</button>
+            <button class="editBtn" user-id="{{UserId}}" post-id="{{id}}">Edit</button>
+            <p class="text">{{post}}</p>
+            <button class="commentBtn" data-id="{{id}}">Add comment</button>
+            <button class="seeBtn" data-id="{{id}}">See comments: {{Comments.length}}</button>
+        </div>
+        {{/each}}
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+<script src="js/homepage.js"></script>

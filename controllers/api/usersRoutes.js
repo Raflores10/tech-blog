@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const {users, posts, comments} = require("../models");
+const {User, Post, Comment,} = require("../../models");
 const bcrypt = require("bcrypt");
 
 router.get("/", async (req, res)=> {
     try {
-        const allUsers = await users.findAll();
+        const allUsers = await User.findAll();
         res.status(200).json(allUsers);
     } catch (error) {
         console.log(error);
@@ -14,8 +14,8 @@ router.get("/", async (req, res)=> {
 })
 
 router.get("/:id", (req,res)=>{
-    users.findByPk(req.params.id,{
-     include:[posts]
+    User.findByPk(req.params.id,{
+     include:[Post]
     }).then(userData=>{
      res.json(userData)
     }).catch(err=>{
