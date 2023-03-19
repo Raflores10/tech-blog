@@ -15,7 +15,7 @@ document.querySelector('#signupForm').addEventListener("submit" , event =>{
         if(res.ok){
            location.href="/homepage"
         } else {
-            alert("something went wrong")
+            alert("error")
         }
     })
 })

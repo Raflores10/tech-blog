@@ -1,20 +1,19 @@
 const express = require('express');
 const session = require('express-session');
 const exphbs = require('express-handlebars');
-const routes = require('./controllers');
-const path = require("path");
+const Handlebars = require('handlebars');
+const allRoutes = require('./controllers');
+const dayjs = require('dayjs');
 
 const sequelize = require('./config/connection');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const app = express();
-app.use(require('express-session')({ secret: 'password', resave: true, saveUninitialized: true }));
-const PORT = process.env.PORT || 3002;
-
-// const { User, Post, Comment} = require('./models');
+const PORT = process.env.PORT || 3003;
+const { User,Post,Comment} = require('./models');
 
 const sess = {
-    secret: process.env.SESSION_SECRET,
+    secret: "secret",
     cookie: {
         maxAge:1000*60*60*2
     },
@@ -30,18 +29,25 @@ app.use(session(sess));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(express.static('public'));
 
+app.use(express.static('public'));
 
 const hbs = exphbs.create({});
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
-app.use(routes);
+app.use('/',allRoutes);
 
+app.get("/sessions",(req,res)=>{
+    res.json(req.session)
+})
+
+Handlebars.registerHelper("dateFormat", function(dateData) {
+    return dayjs(dateData).format("MMM DD YYYY")
+});
 
 sequelize.sync({ force: false }).then(function() {
     app.listen(PORT, function() {
-    console.log('App listening on PORT ' + PORT);
+    console.log(`App listening on http://localhost:${PORT}`);
     });
 });
